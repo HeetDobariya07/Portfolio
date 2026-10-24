@@ -1,10 +1,11 @@
-import { ArrowUpRight, Award, Users } from "lucide-react";
+import { Award, Users } from "lucide-react";
 import { BrandIcon } from "@/components/brand-icons";
 import { ContactForm } from "@/components/contact-form";
 import { CopyEmail } from "@/components/copy-email";
-import { Gauge } from "@/components/gauge";
 import { Hero } from "@/components/hero";
-import { ProjectCard } from "@/components/project-card";
+import { HoodReveal } from "@/components/hood-reveal";
+import { InstrumentCluster } from "@/components/instrument-cluster";
+import { ProjectShowcase } from "@/components/project-showcase";
 import { RoadTimeline } from "@/components/road-timeline";
 import { SectionHeading } from "@/components/section-heading";
 import { SiteBackground } from "@/components/site-background";
@@ -12,16 +13,16 @@ import { SiteNav } from "@/components/site-nav";
 import {
   about,
   certifications,
+  dials,
   experience,
   leadership,
-  moreBuilds,
   profile,
   projects,
+  readouts,
   SITE_URL,
   sections,
   skills,
   socials,
-  stats,
 } from "@/lib/content";
 
 const gear = Object.fromEntries(sections.map((s) => [s.id, s])) as Record<
@@ -59,18 +60,13 @@ export default function Home() {
         <section id="about" className="border-t border-line py-24 md:py-32">
           <div className="mx-auto max-w-5xl px-4 md:px-6">
             <SectionHeading gear={gear.about.gear} label={gear.about.label} title="Where backend engineering meets applied AI." />
-            <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:gap-16">
+            <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-16">
               <div className="space-y-5 text-lg leading-relaxed text-pretty text-muted-foreground">
                 {about.paragraphs.map((p) => (
                   <p key={p}>{p}</p>
                 ))}
-                <p className="border-l-2 border-brand pl-4 text-base">{about.offTheClock}</p>
               </div>
-              <div className="grid grid-cols-2 content-start items-start gap-3 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
-                {stats.map((s) => (
-                  <Gauge key={s.label} stat={s} />
-                ))}
-              </div>
+              <InstrumentCluster dials={dials} readouts={readouts} />
             </div>
           </div>
         </section>
@@ -99,43 +95,7 @@ export default function Home() {
               title="Selected builds."
               intro="RAG systems, NLP tools and a little hardware."
             />
-            <div className="grid gap-4 md:grid-cols-2">
-              {projects.map((p) => (
-                <ProjectCard key={p.name} project={p} />
-              ))}
-            </div>
-
-            <h3 className="mt-20 mb-6 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">More from the garage</h3>
-            <ul className="divide-y divide-line border-y border-line">
-              {moreBuilds.map((b) => {
-                const row = (
-                  <>
-                    <span className="font-medium text-fg">{b.name}</span>
-                    <span className="text-sm text-pretty text-muted-foreground md:col-span-1">{b.summary}</span>
-                    <span className="flex items-center justify-between gap-3 font-mono text-[11px] text-muted-foreground md:justify-end">
-                      {b.stack}
-                      {b.href ? (
-                        <ArrowUpRight aria-hidden className="size-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand" />
-                      ) : (
-                        <span className="size-4 shrink-0" />
-                      )}
-                    </span>
-                  </>
-                );
-                const cls = "group grid gap-1 py-4 md:grid-cols-[1fr_1.6fr_1fr] md:items-center md:gap-6";
-                return (
-                  <li key={b.name}>
-                    {b.href ? (
-                      <a href={b.href} target="_blank" rel="noreferrer" className={`${cls} -mx-3 rounded-lg px-3 transition-colors hover:bg-surface`}>
-                        {row}
-                      </a>
-                    ) : (
-                      <div className={cls}>{row}</div>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+            <ProjectShowcase projects={projects} />
           </div>
         </section>
 
@@ -143,20 +103,7 @@ export default function Home() {
         <section id="skills" className="border-t border-line py-24 md:py-32">
           <div className="mx-auto max-w-5xl px-4 md:px-6">
             <SectionHeading gear={gear.skills.gear} label={gear.skills.label} title="What's under the hood." />
-            <dl className="grid gap-x-12 gap-y-8 md:grid-cols-2">
-              {skills.map((g) => (
-                <div key={g.group}>
-                  <dt className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">{g.group}</dt>
-                  <dd className="flex flex-wrap gap-2">
-                    {g.items.map((s) => (
-                      <span key={s} className="rounded-lg border border-line bg-surface px-3 py-1.5 text-sm">
-                        {s}
-                      </span>
-                    ))}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <HoodReveal skills={skills} />
 
             <div className="mt-16 grid gap-4 md:grid-cols-[1.6fr_1fr]">
               <div className="rounded-2xl border border-line bg-surface p-6">

@@ -30,24 +30,37 @@ export const about = {
     "I'm a Computer Science graduate from Pandit Deendayal Energy University (Minor in IoT) and a founding engineer at Serin Labs, where I help build Serin AI from the ground up.",
     "Most of my work sits where backend engineering meets applied AI: FastAPI services, retrieval pipelines over Pinecone, Qdrant and Neo4j, and the evaluation work that keeps LLM output honest.",
   ],
-  offTheClock:
-    "Off the clock you'll find me at the gym, sketching, or grinding a competitive programming problem.",
 };
 
-export type Stat = {
+export type Dial = {
   label: string;
   value: string;
-  unit?: string;
-  /** Needle position on the dial, 0–1. */
-  needle: number;
-  caption: string;
+  unit: string;
+  /** Scale shown around the dial, e.g. 0–10. */
+  min: number;
+  max: number;
+  /** Distance between numbered marks. */
+  labelStep: number;
+  /** Start of the red zone, like a tachometer's redline. */
+  redline: number;
+  /** Where the needle rests, in scale units. */
+  reading: number;
 };
 
-export const stats: Stat[] = [
-  { label: "CGPA", value: "9.48", unit: "/10", needle: 0.948, caption: "B.Tech CS, PDEU" },
-  { label: "GATE DA", value: "3876", unit: "AIR", needle: 0.78, caption: "Score 432 · 2025" },
-  { label: "Builds", value: "12", unit: "projects", needle: 0.82, caption: "AI, web & IoT" },
+/** The two dials of the About-section instrument cluster. */
+export const dials: Dial[] = [
+  { label: "CGPA", value: "9.48", unit: "/10", min: 0, max: 10, labelStep: 2, redline: 8, reading: 9.48 },
+  // Industry experience since Feb 2025 (Blink → Growexx → Serin), plus a 2024 internship.
+  { label: "Experience", value: "1.5+", unit: "yrs", min: 0, max: 4, labelStep: 1, redline: 3, reading: 1.7 },
 ];
+
+/** Readouts that cycle on the cluster's centre display. */
+export const readouts = [
+  { tag: "NOW", text: "Founding Engineer · Serin Labs" },
+  { tag: "EDU", text: "B.Tech CS, Minor in IoT · PDEU" },
+  { tag: "GATE", text: "Data Science & AI · AIR 3876" },
+  { tag: "STACK", text: "Python · FastAPI · LLMs · RAG" },
+] as const;
 
 export type Role = {
   title: string;
@@ -112,8 +125,11 @@ export type Project = {
   tagline: string;
   description: string;
   stack: string[];
+  /** Short facts shown as a spec sheet. */
+  specs: { label: string; value: string }[];
+  /** How a request/frame/document flows through the system, step by step. */
+  pipeline: string[];
   href?: string;
-  note?: string;
 };
 
 export const projects: Project[] = [
@@ -123,6 +139,12 @@ export const projects: Project[] = [
     description:
       "Full-stack platform to discover and compare Indian government schemes, using hybrid RAG with BGE-M3 and Qdrant, metadata-based eligibility matching, and multilingual voice and WhatsApp access.",
     stack: ["RAG", "BGE-M3", "Qdrant", "FastAPI", "Next.js", "Groq", "Sarvam", "Twilio"],
+    specs: [
+      { label: "Retrieval", value: "Hybrid" },
+      { label: "Access", value: "Web · Voice · WhatsApp" },
+      { label: "Matching", value: "Eligibility-aware" },
+    ],
+    pipeline: ["Scheme data", "BGE-M3 embeddings", "Qdrant hybrid search", "Eligibility filter", "Groq answer", "Voice / WhatsApp"],
     href: "https://github.com/HeetDobariya07/QSkim",
   },
   {
@@ -131,6 +153,12 @@ export const projects: Project[] = [
     description:
       "Low-cost fire detection running a TinyML model on an ESP32-CAM, trained with Edge Impulse on a custom 176-image dataset. On detection it sounds a buzzer and switches a relay-driven water pump, while DHT11 and MQ-2 monitor heat and gas.",
     stack: ["ESP32-CAM", "Edge Impulse", "TinyML", "DHT11", "MQ-2"],
+    specs: [
+      { label: "Dataset", value: "176 images" },
+      { label: "Model input", value: "96 × 96" },
+      { label: "Trigger", value: "> 0.8 confidence" },
+    ],
+    pipeline: ["Camera frame", "TinyML model", "Fire? > 0.8", "Buzzer", "Relay", "Water pump"],
     href: "https://github.com/HeetDobariya07/IoT-Fire-Detection-System",
   },
   {
@@ -139,6 +167,12 @@ export const projects: Project[] = [
     description:
       "Ranks resumes against job descriptions using SpaCy skill extraction and BERT embeddings, scoring relevancy with Gradient Boosting, Random Forest, Ridge and SVR models on a Flask + MongoDB backend.",
     stack: ["BERT", "SpaCy", "scikit-learn", "Flask", "MongoDB"],
+    specs: [
+      { label: "Embeddings", value: "BERT" },
+      { label: "Models", value: "4 regressors" },
+      { label: "Output", value: "Ranked shortlist" },
+    ],
+    pipeline: ["Resume + JD", "SpaCy parsing", "Skill extraction", "BERT similarity", "Regressor ensemble", "Ranked list"],
     href: "https://github.com/HeetDobariya07/TalentLens-Resume_Ranking_System",
   },
   {
@@ -147,53 +181,13 @@ export const projects: Project[] = [
     description:
       "Flask + MongoDB app where teachers create and grade assignments. The Groq API generates viva questions from each submitted file (TXT, PDF, DOCX) so teachers can assess students.",
     stack: ["Flask", "MongoDB", "Groq API"],
+    specs: [
+      { label: "Formats", value: "TXT · PDF · DOCX" },
+      { label: "LLM", value: "Groq API" },
+      { label: "Output", value: "Viva questions" },
+    ],
+    pipeline: ["Assignment", "Student upload", "Document parsing", "Groq LLM", "Viva questions", "Teacher review"],
     href: "https://github.com/HeetDobariya07/Scholaris-Assignment_Evaluator",
-  },
-];
-
-export type Build = { name: string; summary: string; stack: string; href?: string };
-
-export const moreBuilds: Build[] = [
-  {
-    name: "Radiation Impact Predictor",
-    summary: "HackOut24 (DAIICT): predicts space-radiation risk to astronauts and satellites.",
-    stack: "Python · scikit-learn · Flask",
-    href: "https://github.com/HeetDobariya07/HackOut24",
-  },
-  {
-    name: "Car Fleet Management",
-    summary: "SQL system for vehicles, drivers, maintenance scheduling and trip tracking.",
-    stack: "Python · SQL",
-    href: "https://github.com/HeetDobariya07/Fleet-Management-DBMS-Project",
-  },
-  {
-    name: "Crop Management System",
-    summary: "ESP32 sensor node with SMTP email alerts and an Arduino Cloud dashboard.",
-    stack: "ESP32 · DHT11 · Arduino Cloud",
-  },
-  {
-    name: "TravelGuru",
-    summary: "Gemini-powered trip recommendations, itineraries and booking tips.",
-    stack: "Python · Gemini API · Streamlit",
-    href: "https://github.com/HeetDobariya07/AIML-Project-Series",
-  },
-  {
-    name: "EduAdvisor",
-    summary: "Conversational assistant for college admissions and course choices.",
-    stack: "Python · Gemini API · Streamlit",
-    href: "https://github.com/HeetDobariya07/AIML-Project-Series",
-  },
-  {
-    name: "Disease Prediction System",
-    summary: "Symptom-based prediction with SVM, Naive Bayes and Random Forest.",
-    stack: "Python · scikit-learn · Streamlit",
-    href: "https://github.com/HeetDobariya07/AIML-Project-Series",
-  },
-  {
-    name: "OS Algorithm Simulator",
-    summary: "Visual simulations of SRTF, SSTF, producer-consumer and page replacement.",
-    stack: "Python",
-    href: "https://github.com/HeetDobariya07/OS-Simulations",
   },
 ];
 

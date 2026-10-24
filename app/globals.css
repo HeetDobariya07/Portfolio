@@ -140,9 +140,31 @@
   }
 }
 
-/* Dashed lane marking, used by the experience timeline. */
-@utility lane-dashes {
-  background-image: linear-gradient(to bottom, var(--color-muted-foreground) 0 14px, transparent 14px 28px);
-  background-size: 2px 28px;
+/* Hero scroll cue: a lane dash rolling down a short stretch of road. */
+@keyframes cue-drive {
+  0% { top: -0.75rem; opacity: 0; }
+  30% { opacity: 1; }
+  100% { top: 2.5rem; opacity: 0; }
+}
+
+/* Light pulse travelling along a project pipeline (horizontal track from sm, vertical below). */
+@keyframes pulse-x {
+  0% { left: 8%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 92%; opacity: 0; }
+}
+@keyframes pulse-y {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: calc(100% - 0.5rem); opacity: 0; }
+}
+
+/* Dashed road centre line, used by the experience timeline. Colour comes from `text-*`. */
+@utility road-dashes {
+  background-image: linear-gradient(to bottom, currentColor 0 18px, transparent 18px 36px);
+  background-size: 100% 36px;
   background-repeat: repeat-y;
+  border-radius: 2px;
 }
