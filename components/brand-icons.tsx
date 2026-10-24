@@ -11,12 +11,18 @@ const paths: Record<SocialIcon, string> = {
     "M13.48 0a1.37 1.37 0 0 0-.96.44L7.12 6.21l-2.5 2.67a5.27 5.27 0 0 0-1.24 2.2 5.18 5.18 0 0 0-.07 1.83 5.3 5.3 0 0 0 1.43 3.04l4.33 4.66a5.3 5.3 0 0 0 7.65.15l2.6-2.53a1.38 1.38 0 0 0-1.92-1.98l-2.6 2.53a2.53 2.53 0 0 1-3.71-.07l-4.33-4.66a2.56 2.56 0 0 1-.68-1.46 2.4 2.4 0 0 1 .03-.85c.1-.38.3-.73.6-1.05l2.48-2.67 5.39-5.78A1.38 1.38 0 0 0 13.48 0Zm-2.87 13.84a1.38 1.38 0 1 0 0 2.76h9.85a1.38 1.38 0 1 0 0-2.76Z",
   codeforces:
     "M4.5 7.5A1.5 1.5 0 0 1 6 9v10.5A1.5 1.5 0 0 1 4.5 21h-3A1.5 1.5 0 0 1 0 19.5V9a1.5 1.5 0 0 1 1.5-1.5h3Zm9-4.5A1.5 1.5 0 0 1 15 4.5v15a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 19.5v-15A1.5 1.5 0 0 1 10.5 3h3Zm9 7.5A1.5 1.5 0 0 1 24 12v7.5a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5h3Z",
+  // Rounded square, lens and flash dot (drawn with even-odd fill).
+  instagram:
+    "M7 0h10a7 7 0 0 1 7 7v10a7 7 0 0 1-7 7H7a7 7 0 0 1-7-7V7a7 7 0 0 1 7-7Zm0 2.2A4.8 4.8 0 0 0 2.2 7v10A4.8 4.8 0 0 0 7 21.8h10a4.8 4.8 0 0 0 4.8-4.8V7A4.8 4.8 0 0 0 17 2.2H7Zm5 4.3a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2.2a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6Zm5.8-3.4a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6Z",
+  x: "M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z",
 };
+
+const EVEN_ODD: ReadonlySet<SocialIcon> = new Set<SocialIcon>(["instagram"]);
 
 export function BrandIcon({ name, ...props }: { name: SocialIcon } & SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d={paths[name]} />
+      <path d={paths[name]} fillRule={EVEN_ODD.has(name) ? "evenodd" : undefined} />
     </svg>
   );
 }

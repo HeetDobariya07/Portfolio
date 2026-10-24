@@ -23,11 +23,11 @@ function Car() {
         <rect x="0" y="27" width="3" height="4" rx="1" fill="var(--color-brand)" />
         <rect x="21" y="27" width="3" height="4" rx="1" fill="var(--color-brand)" />
         {/* rear window, roof, windshield (front is at the bottom) */}
-        <path d="M6 9 Q12 7 18 9 L17 13 L7 13 Z" fill="#0c0a09" opacity="0.85" />
+        <path d="M6 9 Q12 7 18 9 L17 13 L7 13 Z" fill="var(--color-bg)" opacity="0.85" />
         <rect x="6" y="14" width="12" height="11" rx="2" fill="#000" opacity="0.25" />
-        <path d="M6 33 Q12 35.5 18 33 L17 26 L7 26 Z" fill="#0c0a09" opacity="0.85" />
+        <path d="M6 33 Q12 35.5 18 33 L17 26 L7 26 Z" fill="var(--color-bg)" opacity="0.85" />
         {/* centre stripe */}
-        <rect x="11" y="1.5" width="2" height="41" fill="#faf6f1" opacity="0.25" />
+        <rect x="11" y="1.5" width="2" height="41" fill="var(--color-fg)" opacity="0.25" />
         {/* tail-lights (top) and headlights (bottom) */}
         <rect x="4" y="1.5" width="5" height="2" rx="1" fill="#ff2a2a" />
         <rect x="15" y="1.5" width="5" height="2" rx="1" fill="#ff2a2a" />
@@ -57,7 +57,7 @@ export function RoadTimeline({ roles }: { roles: Role[] }) {
     <ol ref={ref} className="relative">
       {/* road */}
       <div aria-hidden className="absolute inset-y-0 left-0 w-10 md:w-12">
-        <div className="absolute inset-0 rounded-md border-x-2 border-fg/35 bg-[#1b1715] shadow-[inset_0_0_12px_rgba(0,0,0,0.6)]" />
+        <div className="absolute inset-0 rounded-md border-x-2 border-fg/35 bg-asphalt shadow-[inset_0_0_12px_rgba(0,0,0,0.6)]" />
         {/* dashed centre line */}
         <div className="road-dashes absolute inset-y-2 left-1/2 w-[3px] -translate-x-1/2 text-[#f2c14e]/70" />
         {/* the stretch already driven glows red */}

@@ -58,7 +58,7 @@ function TripComputer({ readouts, on, reduce }: { readouts: readonly { tag: stri
 
   return (
     <div
-      className="rounded-2xl border border-line bg-[#080605] p-4 shadow-[inset_0_2px_12px_rgba(0,0,0,0.8)]"
+      className="rounded-2xl border border-line bg-screen-deep p-4 shadow-[inset_0_2px_12px_rgba(0,0,0,0.8)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -115,7 +115,7 @@ export function InstrumentCluster({ dials, readouts }: { dials: DialData[]; read
   return (
     <div
       ref={ref}
-      className="relative self-start overflow-hidden rounded-[2rem] border border-line bg-gradient-to-b from-surface to-[#120f0d] p-5 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)] md:p-6"
+      className="relative self-start overflow-hidden rounded-[2rem] border border-line bg-gradient-to-b from-surface to-panel p-5 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)] md:p-6"
     >
       <div aria-hidden className="pointer-events-none absolute -top-20 left-1/2 h-40 w-72 -translate-x-1/2 rounded-full bg-brand/10 blur-3xl" />
       <div className="relative grid grid-cols-2 gap-3">

@@ -8,7 +8,7 @@ export const MAX_RPM = 8;
 export const IDLE = 0.9;
 const CRUISE = 3.6;
 const PRIMED = 2.2;
-const CRUISE_SPEED = 520; // px per second while test-driving
+const CRUISE_SPEED = 300; // px per second while test-driving (slow enough to read along)
 
 type Rpm = {
   rpm: MotionValue<number>;

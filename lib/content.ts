@@ -16,11 +16,23 @@ export const profile = {
   resumeUrl: "/Heet_Dobariya_Resume.pdf",
 } as const;
 
+/** Hero introduction, written in first person like the reference sites. */
+export const intro = {
+  greeting: "Hi there, I'm",
+  // Rendered as: "I'm an engineer who builds {highlight}."
+  lead: "I'm an engineer who builds",
+  highlight: "production AI",
+  detail:
+    "Right now I'm a founding engineer at Serin Labs, working on Python backends, LLM pipelines and RAG over vector and graph databases.",
+} as const;
+
 export const socials = [
   { label: "GitHub", href: "https://github.com/HeetDobariya07", icon: "github" },
   { label: "LinkedIn", href: "https://linkedin.com/in/heet-dobariya-30758a28a", icon: "linkedin" },
   { label: "LeetCode", href: "https://leetcode.com/u/heetdobariya07/", icon: "leetcode" },
   { label: "Codeforces", href: "https://codeforces.com/profile/HeetDobariya", icon: "codeforces" },
+  { label: "Instagram", href: "https://www.instagram.com/heet_4836/", icon: "instagram" },
+  { label: "X", href: "https://x.com/HeetDobariya63", icon: "x" },
 ] as const;
 
 export type SocialIcon = (typeof socials)[number]["icon"];
@@ -129,10 +141,39 @@ export type Project = {
   specs: { label: string; value: string }[];
   /** How a request/frame/document flows through the system, step by step. */
   pipeline: string[];
+  /** Source code (GitHub). */
   href?: string;
+  /** Live product site, for work projects with private code. */
+  live?: string;
+  /** Small chip marking work projects, e.g. "Work · Serin Labs". */
+  badge?: string;
+  /** My own contributions, shown as a "My work" list. */
+  work?: string[];
 };
 
 export const projects: Project[] = [
+  {
+    name: "Serin AI",
+    tagline: "AI interview platform",
+    badge: "Work · Serin Labs",
+    description:
+      "An AI-powered interview platform that runs voice and video interviews, proctors them for integrity and evaluates every candidate, so hirers can interview everyone and shortlist the best. I'm on the founding team, working across the interview agent, reports, the MCP server and the web app.",
+    stack: ["Next.js", "React", "FastAPI", "LLM agents", "MCP", "Supabase", "PostHog"],
+    specs: [
+      { label: "Role", value: "Founding Engineer" },
+      { label: "Interviews", value: "Voice · Video" },
+      { label: "Access", value: "Web · MCP" },
+    ],
+    pipeline: ["Job & candidates", "AI interview", "Proctoring", "Evaluation", "PDF report", "Hirer dashboard"],
+    live: "https://serin-ai.com",
+    work: [
+      "Extended the Serin MCP server's tools and skills for the new assessment report",
+      "Built report features: additional-assessment section, PDF timeline monitoring and anomaly rows",
+      "Tuned the interview agent: prompt rules, turn intake and transcript generation",
+      "Hardened the interview flow: start-failure handling and the Report Issue form",
+      "Set up Infisical secrets, PostHog analytics and keyboard shortcuts on the hirer app",
+    ],
+  },
   {
     name: "QSkim",
     tagline: "Govt. scheme discovery platform",

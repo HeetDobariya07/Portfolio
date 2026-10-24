@@ -3,12 +3,12 @@ import { BrandIcon } from "@/components/brand-icons";
 import { ContactForm } from "@/components/contact-form";
 import { CopyEmail } from "@/components/copy-email";
 import { Hero } from "@/components/hero";
-import { HoodReveal } from "@/components/hood-reveal";
+import { GarageReveal } from "@/components/garage-reveal";
 import { InstrumentCluster } from "@/components/instrument-cluster";
 import { ProjectShowcase } from "@/components/project-showcase";
 import { RoadTimeline } from "@/components/road-timeline";
 import { SectionHeading } from "@/components/section-heading";
-import { SiteBackground } from "@/components/site-background";
+import { CarbonBackdrop } from "@/components/carbon-backdrop";
 import { SiteNav } from "@/components/site-nav";
 import {
   about,
@@ -50,7 +50,7 @@ export default function Home() {
       >
         Skip to content
       </a>
-      <SiteBackground />
+      <CarbonBackdrop />
       <SiteNav />
 
       <main id="main">
@@ -93,7 +93,7 @@ export default function Home() {
               gear={gear.projects.gear}
               label={gear.projects.label}
               title="Selected builds."
-              intro="RAG systems, NLP tools and a little hardware."
+              intro="Production AI, RAG systems, NLP tools and a little hardware."
             />
             <ProjectShowcase projects={projects} />
           </div>
@@ -102,8 +102,8 @@ export default function Home() {
         {/* 4 · Skills */}
         <section id="skills" className="border-t border-line py-24 md:py-32">
           <div className="mx-auto max-w-5xl px-4 md:px-6">
-            <SectionHeading gear={gear.skills.gear} label={gear.skills.label} title="What's under the hood." />
-            <HoodReveal skills={skills} />
+            <SectionHeading gear={gear.skills.gear} label={gear.skills.label} title="What's in the garage." />
+            <GarageReveal skills={skills} />
 
             <div className="mt-16 grid gap-4 md:grid-cols-[1.6fr_1fr]">
               <div className="rounded-2xl border border-line bg-surface p-6">

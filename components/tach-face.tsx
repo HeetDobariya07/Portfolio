@@ -4,9 +4,13 @@ import type { CSSProperties, ReactNode, Ref } from "react";
 export const TACH = { SWEEP: 240, START: -120, C: 250, R: 230 } as const;
 const { SWEEP, START, C, R } = TACH;
 
+// Trig results can differ in the last digits between Node (SSR) and the browser, which React
+// reports as a hydration mismatch. Rounding SVG coordinates to 2 decimals makes them identical.
+const fixed = (n: number) => Math.round(n * 100) / 100;
+
 function polar(angleDeg: number, radius: number) {
   const a = ((angleDeg - 90) * Math.PI) / 180;
-  return { x: C + radius * Math.cos(a), y: C + radius * Math.sin(a) };
+  return { x: fixed(C + radius * Math.cos(a)), y: fixed(C + radius * Math.sin(a)) };
 }
 
 function arc(from: number, to: number, radius: number) {
@@ -88,9 +92,9 @@ export function TachFace({ min, max, labelStep, redline, caption, needleRef, nee
       })}
       {caption}
       <g ref={needleRef} transform={needleStyle ? undefined : `rotate(${START} ${C} ${C})`} style={needleStyle}>
-        <path d={`M ${C - 6} ${C + 16} L ${C - 2} ${C - R + 30} L ${C + 2} ${C - R + 30} L ${C + 6} ${C + 16} Z`} fill="#ff3b30" />
+        <path d={`M ${C - 6} ${C + 16} L ${C - 2} ${C - R + 30} L ${C + 2} ${C - R + 30} L ${C + 6} ${C + 16} Z`} fill="var(--color-brand)" />
       </g>
-      <circle cx={C} cy={C} r="20" fill="#171311" stroke="var(--color-line)" strokeWidth="2" />
+      <circle cx={C} cy={C} r="20" fill="var(--color-surface)" stroke="var(--color-line)" strokeWidth="2" />
     </svg>
   );
 }

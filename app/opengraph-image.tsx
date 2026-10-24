@@ -15,24 +15,24 @@ export default function OpengraphImage() {
         flexDirection: "column",
         justifyContent: "space-between",
         padding: 72,
-        background: "#0c0a09",
-        color: "#faf6f1",
+        background: "#0e0f11",
+        color: "#f4f5f7",
         fontFamily: "sans-serif",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 26, color: "#d6ccc2" }}>
-        <div style={{ width: 14, height: 14, borderRadius: 999, background: "#ff5a52" }} />
+      <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 26, color: "#a9adb6" }}>
+        <div style={{ width: 14, height: 14, borderRadius: 999, background: "#ff7a1a" }} />
         {profile.headline}
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div style={{ fontSize: 96, fontWeight: 700, letterSpacing: -3 }}>{profile.name}</div>
-        <div style={{ fontSize: 30, color: "#ff5a52", letterSpacing: 8, marginTop: 8 }}>
+        <div style={{ fontSize: 30, color: "#ff7a1a", letterSpacing: 8, marginTop: 8 }}>
           {profile.role.toUpperCase()}
         </div>
-        <div style={{ fontSize: 30, color: "#d6ccc2", marginTop: 28, maxWidth: 900 }}>{profile.pitch}</div>
+        <div style={{ fontSize: 30, color: "#a9adb6", marginTop: 28, maxWidth: 900 }}>{profile.pitch}</div>
       </div>
-      <div style={{ display: "flex", height: 10, borderRadius: 999, background: "#211b18", overflow: "hidden" }}>
-        <div style={{ width: "82%", background: "linear-gradient(90deg, #d6ccc2, #faf6f1 60%, #ff5a52)" }} />
+      <div style={{ display: "flex", height: 10, borderRadius: 999, background: "#1d2025", overflow: "hidden" }}>
+        <div style={{ width: "82%", background: "linear-gradient(90deg, #a9adb6, #f4f5f7 60%, #ff7a1a)" }} />
       </div>
     </div>,
     size,

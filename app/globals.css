@@ -4,15 +4,25 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* "Night drive" palette: warm near-black cabin, sand-white text, one tail-light red brand colour.
+/* "Night drive" palette: graphite cabin, crisp white text, one papaya-orange brand colour (red is reserved for redlines).
    bg / surface / line / fg are the site's own tokens; shadcn's semantic tokens below map onto the same palette. */
 @theme {
-  --color-bg: #0c0a09;
-  --color-surface: #171311;
-  --color-surface-2: #211b18;
-  --color-line: #352c27;
-  --color-fg: #faf6f1;
-  --color-brand: #ff5a52;
+  --color-bg: #0e0f11;
+  --color-surface: #16181c;
+  --color-surface-2: #1d2025;
+  --color-line: #2a2e35;
+  --color-fg: #f4f5f7;
+  --color-brand: #ff7a1a;
+
+  /* Deeper shades used by the "hardware" pieces (cluster, scanner, hood, road). */
+  --color-panel: #111316;
+  --color-housing: #1c1f24;
+  --color-screen: #0a0b0d;
+  --color-screen-deep: #08090a;
+  --color-bay: #0b0c0e;
+  --color-asphalt: #17191d;
+  --color-bonnet-hi: #24272d;
+  --color-bonnet-lo: #17191c;
 
   --font-mono: var(--font-geist-mono);
 
@@ -22,38 +32,38 @@
 /* The site is dark-only, so light and dark share one set of values. */
 :root,
 .dark {
-  --background: #0c0a09;
-  --foreground: #faf6f1;
-  --card: #171311;
-  --card-foreground: #faf6f1;
-  --popover: #171311;
-  --popover-foreground: #faf6f1;
-  --primary: #ff5a52;
-  --primary-foreground: #0c0a09;
-  --secondary: #211b18;
-  --secondary-foreground: #faf6f1;
-  --muted: #211b18;
-  --muted-foreground: #d6ccc2;
-  --accent: #211b18;
-  --accent-foreground: #faf6f1;
-  --destructive: #ff5a52;
-  --border: #352c27;
-  --input: #352c27;
-  --ring: #ff5a52;
-  --chart-1: #ff5a52;
-  --chart-2: #faf6f1;
-  --chart-3: #d6ccc2;
-  --chart-4: #352c27;
-  --chart-5: #211b18;
+  --background: #0e0f11;
+  --foreground: #f4f5f7;
+  --card: #16181c;
+  --card-foreground: #f4f5f7;
+  --popover: #16181c;
+  --popover-foreground: #f4f5f7;
+  --primary: #ff7a1a;
+  --primary-foreground: #0e0f11;
+  --secondary: #1d2025;
+  --secondary-foreground: #f4f5f7;
+  --muted: #1d2025;
+  --muted-foreground: #a9adb6;
+  --accent: #1d2025;
+  --accent-foreground: #f4f5f7;
+  --destructive: #ff7a1a;
+  --border: #2a2e35;
+  --input: #2a2e35;
+  --ring: #ff7a1a;
+  --chart-1: #ff7a1a;
+  --chart-2: #f4f5f7;
+  --chart-3: #a9adb6;
+  --chart-4: #2a2e35;
+  --chart-5: #1d2025;
   --radius: 0.625rem;
-  --sidebar: #171311;
-  --sidebar-foreground: #faf6f1;
-  --sidebar-primary: #ff5a52;
-  --sidebar-primary-foreground: #0c0a09;
-  --sidebar-accent: #211b18;
-  --sidebar-accent-foreground: #faf6f1;
-  --sidebar-border: #352c27;
-  --sidebar-ring: #ff5a52;
+  --sidebar: #16181c;
+  --sidebar-foreground: #f4f5f7;
+  --sidebar-primary: #ff7a1a;
+  --sidebar-primary-foreground: #0e0f11;
+  --sidebar-accent: #1d2025;
+  --sidebar-accent-foreground: #f4f5f7;
+  --sidebar-border: #2a2e35;
+  --sidebar-ring: #ff7a1a;
 }
 
 @theme inline {
@@ -138,6 +148,17 @@
       scroll-behavior: auto;
     }
   }
+}
+
+/* Garage tube light flickering on. */
+@keyframes tube-on {
+  0% { opacity: 0.15; }
+  15% { opacity: 1; }
+  25% { opacity: 0.2; }
+  40% { opacity: 1; }
+  50% { opacity: 0.4; }
+  65% { opacity: 1; }
+  100% { opacity: 1; }
 }
 
 /* Hero scroll cue: a lane dash rolling down a short stretch of road. */

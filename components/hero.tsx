@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUpRight, MapPin } from "lucide-react";
-import { profile } from "@/lib/content";
+import { intro, profile } from "@/lib/content";
 import { HeroTach } from "./hero-tach";
 import { LiveClock } from "./live-clock";
 import { RevMeter } from "./rev-meter";
@@ -11,17 +11,12 @@ export function Hero() {
       <RpmProvider>
         <HeroTach />
         <div className="relative mx-auto max-w-5xl px-4 md:px-6">
-          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3 py-1 font-mono text-xs text-muted-foreground">
-            <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400/60 motion-reduce:animate-none" />
-              <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
-            </span>
-            {profile.headline}
+          <p className="font-mono text-sm tracking-[0.15em] text-muted-foreground uppercase">{intro.greeting}</p>
+          <h1 className="mt-3 text-5xl font-semibold tracking-tight text-balance sm:text-6xl md:text-7xl">{profile.name}</h1>
+          <p className="mt-5 max-w-2xl text-2xl font-medium tracking-tight text-balance text-fg md:text-3xl">
+            {intro.lead} <span className="text-brand">{intro.highlight}</span>.
           </p>
-
-          <h1 className="mt-6 text-5xl font-semibold tracking-tight text-balance sm:text-6xl md:text-7xl">{profile.name}</h1>
-          <p className="mt-3 font-mono text-sm uppercase tracking-[0.25em] text-brand">{profile.role}</p>
-          <p className="mt-6 max-w-xl text-lg text-pretty text-muted-foreground md:text-xl">{profile.pitch}</p>
+          <p className="mt-4 max-w-xl text-lg text-pretty text-muted-foreground">{intro.detail}</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
