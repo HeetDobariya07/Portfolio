@@ -10,8 +10,12 @@ export function SiteFooter() {
     <footer className="border-t border-line bg-surface">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 py-5 sm:flex-row sm:justify-between md:px-6">
         <p className="text-center font-mono text-xs text-muted-foreground sm:text-left">
-          2026 © All Rights Reserved <span aria-hidden className="mx-1.5 text-line">|</span> Built with{" "}
-          <Heart aria-label="love" className="inline size-3.5 -translate-y-px fill-brand text-brand" /> by Heet
+          2026 © All Rights Reserved <span aria-hidden className="mx-1.5 hidden text-line sm:inline">|</span>
+          {/* on phones "Built with ♥ by Heet" gets its own line so it never splits mid-phrase */}
+          <br className="sm:hidden" />
+          <span className="whitespace-nowrap">
+            Built with <Heart aria-label="love" className="inline size-3.5 -translate-y-px fill-brand text-brand" /> by Heet
+          </span>
         </p>
         <AskAi compact />
       </div>
