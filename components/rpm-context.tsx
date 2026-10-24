@@ -10,16 +10,18 @@ const CRUISE = 3.6;
 const PRIMED = 2.2;
 const CRUISE_SPEED = 300; // px per second while test-driving (slow enough to read along)
 
+/** off: needles at 0 · idle: running, scroll is the throttle · driving: test drive (auto-scroll). */
+export type Engine = "off" | "idle" | "driving";
+
 type Rpm = {
   rpm: MotionValue<number>;
-  /** Short rev to near the redline and back to idle. */
-  rev: () => void;
-  /** Brief throttle blip. `amount` is extra rpm (x1000). */
-  blip: (amount: number) => void;
-  /** Raise the idle while the Engine Start button is hovered or focused. */
-  prime: (on: boolean) => void;
+  engine: Engine;
+  /** Kept for consumers that only care whether the test drive is running. */
   touring: boolean;
-  toggleTour: () => void;
+  /** Raise the idle while the Engine Start button is hovered or focused (only when running). */
+  prime: (on: boolean) => void;
+  /** The power button: off → start + test drive; driving or idle → switch off. */
+  pressPower: () => void;
 };
 
 const RpmContext = createContext<Rpm | null>(null);
@@ -34,39 +36,35 @@ const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /**
  * Shared engine state for the hero: the small rev meter and the large tachometer read the same
- * rpm. "Engine start" runs a test drive, i.e. cruise-control auto-scroll down the page, which any
- * user scroll, swipe or key press cancels.
+ * rpm. The engine starts off (needles at 0). The power button cranks it and starts a test drive,
+ * i.e. cruise-control auto-scroll; taking over (scroll, swipe, key) leaves it idling, where scroll
+ * speed works as the throttle; pressing the button again switches it off.
  */
 export function RpmProvider({ children }: { children: ReactNode }) {
   const reduce = useReducedMotion() ?? false;
-  const rpm = useMotionValue(reduce ? IDLE : 0);
-  const [touring, setTouring] = useState(false);
-  const tourRef = useRef(false);
+  const rpm = useMotionValue(0);
+  const [engine, setEngineState] = useState<Engine>("off");
+  const engineRef = useRef<Engine>("off");
   const revving = useRef(false);
+  const primed = useRef(false);
   const settle = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const rev = useCallback(() => {
-    if (reduce) {
-      rpm.set(IDLE);
-      return;
-    }
-    revving.current = true;
-    animate(rpm, [rpm.get(), 7.4, 6.2, 7.8, IDLE], { duration: 1.8, times: [0, 0.32, 0.45, 0.62, 1], ease: "easeInOut" }).then(
-      () => {
-        revving.current = false;
-      },
-    );
-  }, [reduce, rpm]);
+  const setEngine = useCallback((next: Engine) => {
+    engineRef.current = next;
+    setEngineState(next);
+  }, []);
 
-  const primed = useRef(false);
   const rest = () => (primed.current ? PRIMED : IDLE);
 
+  /** Throttle blip while idling. */
   const blip = useCallback(
     (amount: number) => {
-      if (reduce || revving.current || tourRef.current) return;
+      if (reduce || revving.current || engineRef.current !== "idle") return;
       animate(rpm, Math.min(rest() + amount, 6.5), { duration: 0.25, ease: "easeOut" });
       if (settle.current) clearTimeout(settle.current);
-      settle.current = setTimeout(() => animate(rpm, rest(), { duration: 1.1, ease: "easeOut" }), 180);
+      settle.current = setTimeout(() => {
+        if (engineRef.current === "idle") animate(rpm, rest(), { duration: 1.1, ease: "easeOut" });
+      }, 180);
     },
     [reduce, rpm],
   );
@@ -74,13 +72,13 @@ export function RpmProvider({ children }: { children: ReactNode }) {
   const prime = useCallback(
     (on: boolean) => {
       primed.current = on;
-      if (reduce || revving.current || tourRef.current) return;
+      if (reduce || revving.current || engineRef.current !== "idle") return;
       animate(rpm, on ? PRIMED : IDLE, { duration: 0.6, ease: "easeOut" });
     },
     [reduce, rpm],
   );
 
-  // Scrolling is the throttle: scroll speed near the top of the page pushes the needles up.
+  // Scrolling is the throttle, but only while the engine is idling near the top of the page.
   useEffect(() => {
     if (reduce) return;
     let lastY = window.scrollY;
@@ -96,38 +94,46 @@ export function RpmProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [blip, reduce]);
 
-  const stopTour = useCallback(() => {
-    if (!tourRef.current) return;
-    tourRef.current = false;
-    setTouring(false);
-    if (!reduce) animate(rpm, IDLE, { duration: 1, ease: "easeOut" });
-  }, [reduce, rpm]);
+  const switchOff = useCallback(() => {
+    setEngine("off");
+    revving.current = false;
+    if (reduce) rpm.set(0);
+    else animate(rpm, 0, { duration: 1.2, ease: "easeOut" });
+  }, [reduce, rpm, setEngine]);
 
-  const startTour = useCallback(async () => {
-    tourRef.current = true;
-    setTouring(true);
+  /** The driver takes over (or the drive reaches the end): keep the engine running at idle. */
+  const takeOver = useCallback(() => {
+    if (engineRef.current !== "driving") return;
+    setEngine("idle");
+    if (reduce) rpm.set(IDLE);
+    else animate(rpm, rest(), { duration: 1, ease: "easeOut" });
+  }, [reduce, rpm, setEngine]);
+
+  const startDrive = useCallback(async () => {
+    setEngine("driving");
 
     if (reduce) {
-      // No continuous motion: hop section to section.
+      // No continuous motion: needles straight to cruise, then hop section to section.
+      rpm.set(CRUISE);
       for (const s of sections) {
-        if (!tourRef.current) return;
+        if (engineRef.current !== "driving") return;
         document.getElementById(s.id)?.scrollIntoView({ behavior: "auto" });
         await wait(2600);
       }
-      stopTour();
+      takeOver();
       return;
     }
 
-    // Rev, then pull away and hold a steady cruise down the page.
+    // Crank, catch, rev, then pull away and hold a steady cruise down the page.
     revving.current = true;
-    await animate(rpm, [rpm.get(), 6.8, CRUISE], { duration: 1.1, times: [0, 0.45, 1], ease: "easeInOut" });
+    await animate(rpm, [0, 1.3, 0.7, 1.6, 6.8, CRUISE], { duration: 1.6, times: [0, 0.12, 0.22, 0.34, 0.65, 1], ease: "easeInOut" });
     revving.current = false;
-    if (!tourRef.current) return;
+    if (engineRef.current !== "driving") return;
 
     let last = performance.now();
-    let started = last;
+    const started = last;
     const step = (now: number) => {
-      if (!tourRef.current) return;
+      if (engineRef.current !== "driving") return;
       const dt = Math.min(now - last, 64) / 1000;
       last = now;
       // Ease in over the first second, like pulling away.
@@ -137,43 +143,38 @@ export function RpmProvider({ children }: { children: ReactNode }) {
       window.scrollTo({ top: next, behavior: "instant" });
       rpm.set(CRUISE + Math.sin(now / 260) * 0.12);
       if (next >= max - 1) {
-        stopTour();
+        takeOver();
         return;
       }
       requestAnimationFrame(step);
     };
-    started = performance.now();
     requestAnimationFrame(step);
-  }, [reduce, rpm, stopTour]);
+  }, [reduce, rpm, setEngine, takeOver]);
 
-  const toggleTour = useCallback(() => {
-    if (tourRef.current) stopTour();
-    else void startTour();
-  }, [startTour, stopTour]);
+  const pressPower = useCallback(() => {
+    if (engineRef.current === "off") void startDrive();
+    else switchOff();
+  }, [startDrive, switchOff]);
 
-  // Any manual input takes back control.
+  // Any manual input during a test drive hands the wheel back (engine keeps idling).
   useEffect(() => {
-    if (!touring) return;
-    const cancel = () => stopTour();
+    if (engine !== "driving") return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "Tab" && e.key !== "Enter" && e.key !== " ") stopTour();
+      if (e.key !== "Tab" && e.key !== "Enter" && e.key !== " ") takeOver();
     };
-    window.addEventListener("wheel", cancel, { passive: true });
-    window.addEventListener("touchstart", cancel, { passive: true });
+    window.addEventListener("wheel", takeOver, { passive: true });
+    window.addEventListener("touchstart", takeOver, { passive: true });
     window.addEventListener("keydown", onKey);
     return () => {
-      window.removeEventListener("wheel", cancel);
-      window.removeEventListener("touchstart", cancel);
+      window.removeEventListener("wheel", takeOver);
+      window.removeEventListener("touchstart", takeOver);
       window.removeEventListener("keydown", onKey);
     };
-  }, [touring, stopTour]);
+  }, [engine, takeOver]);
 
-  // Rev once shortly after load.
-  useEffect(() => {
-    const t = setTimeout(rev, 500);
-    return () => clearTimeout(t);
-  }, [rev]);
-
-  const value = useMemo(() => ({ rpm, rev, blip, prime, touring, toggleTour }), [rpm, rev, blip, prime, touring, toggleTour]);
+  const value = useMemo(
+    () => ({ rpm, engine, touring: engine === "driving", prime, pressPower }),
+    [rpm, engine, prime, pressPower],
+  );
   return <RpmContext value={value}>{children}</RpmContext>;
 }

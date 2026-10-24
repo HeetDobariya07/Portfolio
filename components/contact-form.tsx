@@ -46,7 +46,7 @@ export function ContactForm() {
         <label htmlFor="message" className="mb-1.5 block font-mono text-xs text-muted-foreground">
           Message
         </label>
-        <textarea id="message" name="message" required rows={5} placeholder="A role, a project, or just hello…"
+        <textarea id="message" name="message" required rows={4} placeholder="A role, a project, or just hello…"
           aria-invalid={Boolean(err.message)} aria-describedby={err.message ? "message-error" : undefined}
           className={cn(field, "resize-y")} />
         {err.message ? <p id="message-error" className="mt-1.5 text-xs text-brand">{err.message}</p> : null}
@@ -56,7 +56,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-bg transition-[transform,opacity] duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-bg transition-[transform,opacity] duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 sm:w-auto"
         >
           {pending ? <Loader2 aria-hidden className="size-4 animate-spin" /> : <Flag aria-hidden className="size-4" />}
           {pending ? "Sending…" : "Send it"}

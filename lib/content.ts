@@ -147,8 +147,10 @@ export type Project = {
   live?: string;
   /** Small chip marking work projects, e.g. "Work · Serin Labs". */
   badge?: string;
-  /** My own contributions, shown as a "My work" list. */
+  /** My own contributions on a work project, shown as "My work". */
   work?: string[];
+  /** Key points of a personal project, shown as "Highlights". */
+  highlights?: string[];
 };
 
 export const projects: Project[] = [
@@ -187,6 +189,12 @@ export const projects: Project[] = [
     ],
     pipeline: ["Scheme data", "BGE-M3 embeddings", "Qdrant hybrid search", "Eligibility filter", "Groq answer", "Voice / WhatsApp"],
     href: "https://github.com/HeetDobariya07/QSkim",
+    highlights: [
+      "Profile-based scheme recommendations and grounded Q&A over Indian government schemes",
+      "Hybrid retrieval: BGE-M3 embeddings in Qdrant with metadata filters for eligibility",
+      "Knowledge base built by scraping scheme portals with Playwright and BeautifulSoup",
+      "Multilingual voice via Sarvam and WhatsApp access via Twilio",
+    ],
   },
   {
     name: "IoT Fire Detection",
@@ -201,6 +209,12 @@ export const projects: Project[] = [
     ],
     pipeline: ["Camera frame", "TinyML model", "Fire? > 0.8", "Buzzer", "Relay", "Water pump"],
     href: "https://github.com/HeetDobariya07/IoT-Fire-Detection-System",
+    highlights: [
+      "Collected 176 training images with the ESP32-CAM itself (93 fire, 83 no-fire)",
+      "96×96 TinyML model trained in Edge Impulse, running fully on the board",
+      "Fire confidence above 0.8 sounds a buzzer and switches a relay-driven 9V pump",
+      "DHT11 and MQ-2 monitor temperature, humidity and gas alongside the camera",
+    ],
   },
   {
     name: "TalentLens",
@@ -215,6 +229,12 @@ export const projects: Project[] = [
     ],
     pipeline: ["Resume + JD", "SpaCy parsing", "Skill extraction", "BERT similarity", "Regressor ensemble", "Ranked list"],
     href: "https://github.com/HeetDobariya07/TalentLens-Resume_Ranking_System",
+    highlights: [
+      "Parses resumes and extracts skills with SpaCy",
+      "Scores semantic fit to the job description with BERT sentence embeddings",
+      "Combines Gradient Boosting, Random Forest, Ridge and SVR for relevancy scoring",
+      "Flask + MongoDB backend for storing and ranking candidates",
+    ],
   },
   {
     name: "Scholaris",
@@ -229,6 +249,12 @@ export const projects: Project[] = [
     ],
     pipeline: ["Assignment", "Student upload", "Document parsing", "Groq LLM", "Viva questions", "Teacher review"],
     href: "https://github.com/HeetDobariya07/Scholaris-Assignment_Evaluator",
+    highlights: [
+      "Teachers create assignments; students submit TXT, PDF or DOCX files",
+      "Submissions are parsed and sent to the Groq API",
+      "Generates viva questions from each submission so teachers can assess students",
+      "Flask + MongoDB backend with a Bootstrap and Jinja2 interface",
+    ],
   },
 ];
 

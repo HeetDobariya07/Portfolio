@@ -2,14 +2,14 @@
 
 import { useMotionValueEvent } from "motion/react";
 import { useEffect, useRef } from "react";
-import { IDLE, MAX_RPM, useRpm } from "./rpm-context";
+import { MAX_RPM, useRpm } from "./rpm-context";
 import { dialAngle, TACH, TachFace } from "./tach-face";
 
 const rotate = (v: number) => `rotate(${dialAngle(v, 0, MAX_RPM)} ${TACH.C} ${TACH.C})`;
 
 /**
- * Large, faint tachometer on the right of the hero. Its needle reads the shared rpm: it revs on
- * load, climbs as you scroll, lifts when the Engine Start button is hovered, and holds cruise during a test drive.
+ * Large, faint tachometer on the right of the hero. Its needle reads the shared rpm: it rests at
+ * 0 with the engine off, cranks and holds cruise during a test drive, and climbs with scroll speed while idling.
  */
 export function HeroTach() {
   const { rpm } = useRpm();
@@ -17,7 +17,7 @@ export function HeroTach() {
 
   useMotionValueEvent(rpm, "change", (v) => needle.current?.setAttribute("transform", rotate(v)));
   useEffect(() => {
-    needle.current?.setAttribute("transform", rotate(rpm.get() || IDLE));
+    needle.current?.setAttribute("transform", rotate(rpm.get()));
   }, [rpm]);
 
   return (

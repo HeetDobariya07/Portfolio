@@ -9,6 +9,7 @@ import { ProjectShowcase } from "@/components/project-showcase";
 import { RoadTimeline } from "@/components/road-timeline";
 import { SectionHeading } from "@/components/section-heading";
 import { CarbonBackdrop } from "@/components/carbon-backdrop";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import {
   about,
@@ -142,9 +143,10 @@ export default function Home() {
               title="Let's take it for a spin."
               intro="Open to AI engineering roles, interesting projects and good conversations."
             />
-            <div className="grid gap-12 md:grid-cols-[1.5fr_1fr]">
+            <div className="grid gap-10 md:grid-cols-[1.5fr_1fr] md:gap-12">
               <ContactForm />
-              <div className="space-y-6">
+              {/* on phones the quick links come first, above the form */}
+              <div className="order-first space-y-6 md:order-none">
                 <div>
                   <p className="mb-2 font-mono text-xs text-muted-foreground">Email</p>
                   <CopyEmail email={profile.email} />
@@ -173,27 +175,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-line py-10">
-        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 font-mono text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:px-6">
-          <p>
-            © {profile.name} · <span className="text-fg">Keep calm and redline on.</span>
-          </p>
-          <ul className="flex flex-wrap gap-4">
-            {socials.map((s) => (
-              <li key={s.label}>
-                <a href={s.href} target="_blank" rel="noreferrer" className="hover:text-fg">
-                  {s.label}
-                </a>
-              </li>
-            ))}
-            <li>
-              <a href={profile.resumeUrl} target="_blank" rel="noreferrer" className="hover:text-fg">
-                Resume
-              </a>
-            </li>
-          </ul>
-        </div>
-      </footer>
+      <SiteFooter />
 
       <script
         type="application/ld+json"

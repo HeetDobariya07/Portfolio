@@ -18,10 +18,10 @@ export function Hero() {
           </p>
           <p className="mt-4 max-w-xl text-lg text-pretty text-muted-foreground">{intro.detail}</p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
               View my work <ArrowDown aria-hidden className="size-4" />
             </a>
@@ -29,11 +29,11 @@ export function Hero() {
               href={profile.resumeUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-medium transition-colors hover:border-fg"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-medium transition-colors hover:border-fg"
             >
               Resume <ArrowUpRight aria-hidden className="size-4" />
             </a>
-            <a href="#contact" className="px-2 py-2.5 text-sm text-muted-foreground underline-offset-4 hover:text-fg hover:underline">
+            <a href="#contact" className="col-span-2 py-2 text-center text-sm text-muted-foreground underline-offset-4 hover:text-fg hover:underline sm:col-span-1 sm:px-2 sm:text-left">
               Get in touch
             </a>
           </div>
