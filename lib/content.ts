@@ -16,6 +16,21 @@ export const profile = {
   resumeUrl: "/Heet_Dobariya_Resume.pdf",
 } as const;
 
+/** Prompt sent to AI assistants from the hero's "Ask AI about me" buttons. */
+export const aiReviewPrompt = `You are a senior technical hiring manager reviewing a developer portfolio.
+
+Read ${SITE_URL}/llms.txt and the public pages at ${SITE_URL}. Use only information from those sources.
+
+Write a concise evaluation with:
+
+1) Profile snapshot
+
+2) Strengths backed by specific evidence
+
+3) Best-fit roles
+
+4) Fair gaps or open questions`;
+
 /** Hero introduction, written in first person like the reference sites. */
 export const intro = {
   greeting: "Hi there, I'm",

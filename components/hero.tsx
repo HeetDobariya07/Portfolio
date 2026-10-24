@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUpRight, MapPin } from "lucide-react";
 import { intro, profile } from "@/lib/content";
+import { AskAi } from "./ask-ai";
 import { HeroTach } from "./hero-tach";
 import { LiveClock } from "./live-clock";
 import { RevMeter } from "./rev-meter";
@@ -18,7 +19,11 @@ export function Hero() {
           </p>
           <p className="mt-4 max-w-xl text-lg text-pretty text-muted-foreground">{intro.detail}</p>
 
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
+          <div className="mt-7">
+            <AskAi />
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
             <a
               href="#projects"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
