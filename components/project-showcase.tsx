@@ -198,7 +198,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
             aria-label="Projects"
             aria-orientation="vertical"
             onKeyDown={onKeyDown}
-            className="flex gap-1 overflow-x-auto [mask-image:linear-gradient(to_right,black_85%,transparent)] [scrollbar-width:none] lg:flex-col lg:overflow-visible lg:[mask-image:none] [&::-webkit-scrollbar]:hidden"
+            className="flex flex-wrap gap-1 lg:flex-col"
           >
             {projects.map((p, i) => {
               const selected = i === active;

@@ -71,7 +71,8 @@ function TripComputer({ readouts, on, reduce }: { readouts: readonly { tag: stri
         ))}
       </ul>
 
-      <div aria-hidden className="relative h-11 overflow-hidden">
+      {/* tall enough for two wrapped lines, so narrow screens never clip the readout */}
+      <div aria-hidden className="relative h-[3.75rem] overflow-hidden">
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
             key={current.tag}
@@ -82,7 +83,7 @@ function TripComputer({ readouts, on, reduce }: { readouts: readonly { tag: stri
             className="absolute inset-0"
           >
             <p className="font-mono text-[10px] tracking-[0.25em] text-brand">{current.tag}</p>
-            <p className="mt-1 truncate font-mono text-sm text-fg">{current.text}</p>
+            <p className="mt-1 font-mono text-[13px] leading-snug text-pretty break-words text-fg sm:text-sm">{current.text}</p>
           </motion.div>
         </AnimatePresence>
       </div>
