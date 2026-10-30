@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>HD</title>
+  <!-- "HD" in Archivo ExtraBold (SIL OFL), converted to paths so no font is needed -->
   <rect width="64" height="64" rx="14" fill="#0e0f11"/>
-  <path d="M14 44a18 18 0 1 1 36 0" fill="none" stroke="#2a2e35" stroke-width="5" stroke-linecap="round"/>
-  <path d="M43 30a18 18 0 0 1 7 14" fill="none" stroke="#e0651a" stroke-width="5" stroke-linecap="round"/>
-  <path d="M32 44 44 28" stroke="#ff7a1a" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="32" cy="44" r="4.5" fill="#f4f5f7"/>
+  <path transform="translate(11.04 36.99) scale(0.2617)" d="M25.40 0L7.50 0L7.50-68.70L25.40-68.70L25.40-42.30L53.30-42.30L53.30-68.70L71.20-68.70L71.20 0L53.30 0L53.30-27.70L25.40-27.70M117.90 0L89.20 0L89.20-68.70L117.90-68.70Q129.10-68.70 136.85-65Q144.60-61.30 148.65-53.75Q152.70-46.20 152.70-34.40Q152.70-22.70 148.65-15.05Q144.60-7.40 136.85-3.70Q129.10 0 117.90 0M107.10-54.70L107.10-14L117.70-14Q121.90-14 125-15.20Q128.10-16.40 130.20-18.70Q132.30-21 133.30-24.40Q134.30-27.80 134.30-32.20L134.30-36.40Q134.30-40.90 133.30-44.30Q132.30-47.70 130.20-50Q128.10-52.30 125-53.50Q121.90-54.70 117.70-54.70" fill="#ffffff"/>
+  <rect x="13.00" y="40.99" width="38.00" height="4" rx="2" fill="#ff7a1a"/>
 </svg>

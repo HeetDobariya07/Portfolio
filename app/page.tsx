@@ -37,7 +37,7 @@ const personJsonLd = {
   name: profile.name,
   url: SITE_URL,
   jobTitle: profile.role,
-  worksFor: { "@type": "Organization", name: "Serin Labs" },
+  worksFor: { "@type": "Organization", name: "Serin AI" },
   alumniOf: { "@type": "CollegeOrUniversity", name: "Pandit Deendayal Energy University" },
   sameAs: socials.map((s) => s.href),
 };

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: `${profile.name} · ${profile.role}`,
   description,
   authors: [{ name: profile.name, url: SITE_URL }],
-  keywords: ["Heet Dobariya", "AI Engineer", "LLM", "RAG", "FastAPI", "Portfolio", "Serin Labs"],
+  keywords: ["Heet Dobariya", "AI Engineer", "LLM", "RAG", "FastAPI", "Portfolio", "Serin AI"],
   openGraph: {
     type: "website",
     url: SITE_URL,

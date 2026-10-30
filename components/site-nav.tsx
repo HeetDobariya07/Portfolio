@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText } from "lucide-react";
+import { Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { profile, sections } from "@/lib/content";
@@ -63,14 +63,17 @@ export function SiteNav() {
           })}
         </ol>
 
+        {/* Resume: the one solid call-to-action in the bar. Icon-only on phones. */}
         <a
           href={profile.resumeUrl}
           target="_blank"
           rel="noreferrer"
-          className="hidden items-center gap-1.5 rounded-full border border-line px-3 py-1.5 font-mono text-xs text-fg transition-colors hover:border-brand hover:text-brand sm:flex"
+          aria-label="Resume (PDF)"
+          title="Open resume (PDF)"
+          className="group inline-flex size-9 shrink-0 items-center justify-center gap-2 rounded-full bg-brand font-mono text-xs font-semibold text-bg transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-8px_var(--color-brand)] sm:size-auto sm:h-9 sm:px-4"
         >
-          <FileText aria-hidden className="size-3.5" />
-          Resume
+          <Download aria-hidden className="size-4 transition-transform duration-200 group-hover:translate-y-0.5" />
+          <span className="hidden sm:inline">Resume</span>
         </a>
       </nav>
     </header>

@@ -7,7 +7,7 @@ export const SITE_URL =
 export const profile = {
   name: "Heet Dobariya",
   role: "AI Engineer",
-  headline: "Founding Engineer @ Serin Labs",
+  headline: "Founding Engineer @ Serin AI",
   pitch:
     "I build production AI systems: Python backends, LLM pipelines and RAG over vector and graph databases.",
   location: "Ahmedabad, India",
@@ -38,7 +38,7 @@ export const intro = {
   lead: "I'm an engineer who builds",
   highlight: "production AI",
   detail:
-    "Right now I'm a founding engineer at Serin Labs, working on Python backends, LLM pipelines and RAG over vector and graph databases.",
+    "Right now I'm a founding engineer at Serin AI, working on Python backends, LLM pipelines and RAG over vector and graph databases.",
 } as const;
 
 export const socials = [
@@ -54,7 +54,7 @@ export type SocialIcon = (typeof socials)[number]["icon"];
 
 export const about = {
   paragraphs: [
-    "I'm a Computer Science graduate from Pandit Deendayal Energy University (Minor in IoT) and a founding engineer at Serin Labs, where I help build Serin AI from the ground up.",
+    "I'm a Computer Science graduate from Pandit Deendayal Energy University (Minor in IoT) and a founding engineer at Serin AI, where I help build the product from the ground up.",
     "Most of my work sits where backend engineering meets applied AI: FastAPI services, retrieval pipelines over Pinecone, Qdrant and Neo4j, and the evaluation work that keeps LLM output honest.",
   ],
 };
@@ -83,7 +83,7 @@ export const dials: Dial[] = [
 
 /** Readouts that cycle on the cluster's centre display. */
 export const readouts = [
-  { tag: "NOW", text: "Founding Engineer · Serin Labs" },
+  { tag: "NOW", text: "Founding Engineer · Serin AI" },
   { tag: "EDU", text: "B.Tech CS, Minor in IoT · PDEU" },
   { tag: "GATE", text: "Data Science & AI · AIR 3876" },
   { tag: "STACK", text: "Python · FastAPI · LLMs · RAG" },
@@ -102,15 +102,15 @@ export type Role = {
 export const experience: Role[] = [
   {
     title: "Founding Engineer",
-    company: "Serin Labs",
+    company: "Serin AI",
     place: "Ahmedabad",
     period: "Sep 2026 – Present",
     current: true,
     points: [
-      "Building core Serin AI features as part of the founding team, shipping fixes and platform improvements.",
+      "Building core product features as part of the founding team, shipping fixes and platform improvements.",
       "Developed Serin MCP integrations and led platform-wide QC to catch bugs, edge cases and usability issues.",
     ],
-    tags: ["Serin AI", "MCP", "QC"],
+    tags: ["AI interviews", "MCP", "QC"],
   },
   {
     title: "Jr. Software Engineer",
@@ -160,7 +160,7 @@ export type Project = {
   href?: string;
   /** Live product site, for work projects with private code. */
   live?: string;
-  /** Small chip marking work projects, e.g. "Work · Serin Labs". */
+  /** Small chip marking work projects, e.g. "Work project". */
   badge?: string;
   /** My own contributions on a work project, shown as "My work". */
   work?: string[];
@@ -172,7 +172,7 @@ export const projects: Project[] = [
   {
     name: "Serin AI",
     tagline: "AI interview platform",
-    badge: "Work · Serin Labs",
+    badge: "Work project",
     description:
       "An AI-powered interview platform that runs voice and video interviews, proctors them for integrity and evaluates every candidate, so hirers can interview everyone and shortlist the best. I'm on the founding team, working across the interview agent, reports, the MCP server and the web app.",
     stack: ["Next.js", "React", "FastAPI", "LLM agents", "MCP", "Supabase", "PostHog"],

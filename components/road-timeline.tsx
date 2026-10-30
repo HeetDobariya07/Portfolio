@@ -5,37 +5,36 @@ import { useRef } from "react";
 import type { Role } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
-const CAR_HEIGHT = 44;
+const CAR_W = 41;
+const CAR_HEIGHT = 90;
 
-/** Top-down car, nose pointing down the road. */
+/**
+ * The car on the road: a top-down G-class photo (cut out and colour-graded by scripts/make-car-sprite.mjs),
+ * nose down the road. A papaya underglow and rim light lift the dark paint off the asphalt.
+ */
 function Car() {
   return (
-    <div className="relative">
-      {/* headlight beams */}
+    <div className="relative" style={{ width: CAR_W, height: CAR_HEIGHT }}>
+      {/* underglow */}
+      <div aria-hidden className="absolute top-1/2 left-1/2 h-[78px] w-8 -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-brand/45 blur-md" />
+      {/* headlight beam (front is at the bottom) */}
       <div
         aria-hidden
-        className="absolute top-[38px] left-1/2 h-16 w-12 -translate-x-1/2 bg-gradient-to-b from-[#fff3d6]/35 to-transparent [clip-path:polygon(30%_0,70%_0,100%_100%,0_100%)]"
+        className="absolute left-1/2 h-20 w-11 -translate-x-1/2 bg-gradient-to-b from-[#fff3d6]/35 to-transparent [clip-path:polygon(30%_0,70%_0,100%_100%,0_100%)]"
+        style={{ top: CAR_HEIGHT - 4 }}
       />
-      <svg width="24" height={CAR_HEIGHT} viewBox="0 0 24 44" className="relative drop-shadow-[0_4px_6px_rgba(0,0,0,0.6)]">
-        {/* body */}
-        <rect x="2" y="1" width="20" height="42" rx="7" fill="var(--color-brand)" />
-        {/* side mirrors */}
-        <rect x="0" y="27" width="3" height="4" rx="1" fill="var(--color-brand)" />
-        <rect x="21" y="27" width="3" height="4" rx="1" fill="var(--color-brand)" />
-        {/* rear window, roof, windshield (front is at the bottom) */}
-        <path d="M6 9 Q12 7 18 9 L17 13 L7 13 Z" fill="var(--color-bg)" opacity="0.85" />
-        <rect x="6" y="14" width="12" height="11" rx="2" fill="#000" opacity="0.25" />
-        <path d="M6 33 Q12 35.5 18 33 L17 26 L7 26 Z" fill="var(--color-bg)" opacity="0.85" />
-        {/* centre stripe */}
-        <rect x="11" y="1.5" width="2" height="41" fill="var(--color-fg)" opacity="0.25" />
-        {/* tail-lights (top) and headlights (bottom) */}
-        <rect x="4" y="1.5" width="5" height="2" rx="1" fill="#ff2a2a" />
-        <rect x="15" y="1.5" width="5" height="2" rx="1" fill="#ff2a2a" />
-        <rect x="4" y="40.5" width="5" height="2" rx="1" fill="#fff3d6" />
-        <rect x="15" y="40.5" width="5" height="2" rx="1" fill="#fff3d6" />
-      </svg>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/g63-top.webp"
+        alt=""
+        aria-hidden
+        width={CAR_W}
+        height={CAR_HEIGHT}
+        draggable={false}
+        className="relative block drop-shadow-[0_0_3px_rgba(255,122,26,0.55)] drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)]"
+      />
       {/* tail-light glow */}
-      <div aria-hidden className="absolute -top-1 left-1/2 h-3 w-7 -translate-x-1/2 rounded-full bg-[#ff2a2a]/50 blur-md" />
+      <div aria-hidden className="absolute top-3 left-1/2 h-3 w-8 -translate-x-1/2 rounded-full bg-[#ff2a2a]/35 blur-md" />
     </div>
   );
 }
@@ -56,7 +55,7 @@ export function RoadTimeline({ roles }: { roles: Role[] }) {
   return (
     <ol ref={ref} className="relative">
       {/* road */}
-      <div aria-hidden className="absolute inset-y-0 left-0 w-10 md:w-12">
+      <div aria-hidden className="absolute inset-y-0 left-0 w-12 md:w-14">
         <div className="absolute inset-0 rounded-md border-x-2 border-fg/35 bg-asphalt shadow-[inset_0_0_12px_rgba(0,0,0,0.6)]" />
         {/* dashed centre line */}
         <div className="road-dashes absolute inset-y-2 left-1/2 w-[3px] -translate-x-1/2 text-[#f2c14e]/70" />
@@ -73,11 +72,11 @@ export function RoadTimeline({ roles }: { roles: Role[] }) {
       </div>
 
       {roles.map((role, i) => (
-        <li key={`${role.company}-${role.period}`} className="relative pb-14 pl-16 last:pb-2 md:pl-20">
+        <li key={`${role.company}-${role.period}`} className="relative pb-14 pl-[4.5rem] last:pb-2 md:pl-20">
           {/* mile-marker on the shoulder */}
           <span
             aria-hidden
-            className={cn("absolute top-[7px] left-11 h-px w-3 md:left-[3.25rem]", role.current ? "bg-brand" : "bg-fg/40")}
+            className={cn("absolute top-[7px] left-[3.25rem] h-px w-3 md:left-[3.75rem]", role.current ? "bg-brand" : "bg-fg/40")}
           />
 
           <p className={cn("font-mono text-[10px] uppercase tracking-[0.2em]", role.current ? "text-brand" : "text-muted-foreground")}>
