@@ -26,20 +26,20 @@ export function Hero() {
           <div className="mt-4 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
             <a
               href="#projects"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-[transform,box-shadow] duration-200 hover:shadow-[0_10px_28px_-10px_var(--color-brand)] motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-safe:active:scale-[0.98]"
             >
-              View my work <ArrowDown aria-hidden className="size-4" />
+              View my work <ArrowDown aria-hidden className="size-4 transition-transform duration-200 motion-safe:group-hover:translate-y-0.5" />
             </a>
             <a
               href={profile.resumeUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-medium transition-colors hover:border-fg"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-medium transition-[transform,border-color,color] duration-200 hover:border-brand hover:text-brand motion-safe:active:scale-[0.98]"
             >
-              Resume <ArrowUpRight aria-hidden className="size-4" />
+              Resume <ArrowUpRight aria-hidden className="size-4 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" />
             </a>
-            <a href="#contact" className="col-span-2 py-2 text-center text-sm text-muted-foreground underline-offset-4 hover:text-fg hover:underline sm:col-span-1 sm:px-2 sm:text-left">
-              Get in touch
+            <a href="#contact" className="group col-span-2 py-2 text-center text-sm text-muted-foreground transition-colors hover:text-fg sm:col-span-1 sm:px-2 sm:text-left">
+              <span className="bg-gradient-to-r from-brand to-brand bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">Get in touch</span>
             </a>
           </div>
 

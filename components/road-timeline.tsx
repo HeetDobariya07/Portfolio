@@ -53,7 +53,8 @@ export function RoadTimeline({ roles }: { roles: Role[] }) {
   const driven = useTransform(progress, (v) => `${v * 100}%`);
 
   return (
-    <ol ref={ref} className="relative">
+    // hovering a role dims the others, so the one being read stands out
+    <ol ref={ref} className="relative [&:has(li[data-role]:hover)>li[data-role]:not(:hover)]:opacity-55">
       {/* road */}
       <div aria-hidden className="absolute inset-y-0 left-0 w-12 md:w-14">
         <div className="absolute inset-0 rounded-md border-x-2 border-fg/35 bg-asphalt shadow-[inset_0_0_12px_rgba(0,0,0,0.6)]" />
@@ -72,11 +73,18 @@ export function RoadTimeline({ roles }: { roles: Role[] }) {
       </div>
 
       {roles.map((role, i) => (
-        <li key={`${role.company}-${role.period}`} className="relative pb-14 pl-[4.5rem] last:pb-2 md:pl-20">
+        <li
+          key={`${role.company}-${role.period}`}
+          data-role
+          className="group/role relative pb-14 pl-[4.5rem] transition-opacity duration-300 last:pb-2 md:pl-20"
+        >
           {/* mile-marker on the shoulder */}
           <span
             aria-hidden
-            className={cn("absolute top-[7px] left-[3.25rem] h-px w-3 md:left-[3.75rem]", role.current ? "bg-brand" : "bg-fg/40")}
+            className={cn(
+              "absolute top-[7px] left-[3.25rem] h-px w-3 transition-[width,background-color] duration-300 group-hover/role:w-6 group-hover/role:bg-brand md:left-[3.75rem]",
+              role.current ? "bg-brand" : "bg-fg/40",
+            )}
           />
 
           <p className={cn("font-mono text-[10px] uppercase tracking-[0.2em]", role.current ? "text-brand" : "text-muted-foreground")}>
@@ -97,7 +105,7 @@ export function RoadTimeline({ roles }: { roles: Role[] }) {
           <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-muted-foreground">
             {role.points.map((p) => (
               <li key={p} className="flex gap-3">
-                <span aria-hidden className="mt-2.5 h-px w-3 shrink-0 bg-line" />
+                <span aria-hidden className="mt-2.5 h-px w-3 shrink-0 bg-line transition-[width,background-color] duration-300 group-hover/role:w-4 group-hover/role:bg-brand/70" />
                 <span className="text-pretty">{p}</span>
               </li>
             ))}
@@ -105,7 +113,7 @@ export function RoadTimeline({ roles }: { roles: Role[] }) {
 
           <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Tools">
             {role.tags.map((t) => (
-              <li key={t} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
+              <li key={t} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted-foreground transition-colors duration-200 hover:border-brand/60 hover:text-fg">
                 {t}
               </li>
             ))}

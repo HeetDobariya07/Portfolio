@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
+import { animate, AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import type { Dial as DialData } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,33 @@ import { dialAngle, TACH, TachFace } from "./tach-face";
 /** One About-section gauge, drawn with the same face as the hero tachometer. */
 function Dial({ dial, on, reduce }: { dial: DialData; on: boolean; reduce: boolean }) {
   const angle = on || reduce ? dialAngle(dial.reading, dial.min, dial.max) : TACH.START;
+
+  // The number counts up with the needle (same duration and delay). It is written straight to the
+  // DOM so the 60 fps updates never re-render the dial; the final text is always the exact `value`.
+  const num = useRef<SVGTSpanElement>(null);
+  useEffect(() => {
+    const el = num.current;
+    const match = dial.value.match(/^(\d+(?:\.(\d+))?)(.*)$/);
+    if (!el || !match || reduce) return;
+    const target = Number.parseFloat(match[1]);
+    const decimals = match[2]?.length ?? 0;
+    if (!on) {
+      el.textContent = (0).toFixed(decimals);
+      return;
+    }
+    const controls = animate(0, target, {
+      duration: 1.8,
+      delay: 0.25,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => {
+        el.textContent = v.toFixed(decimals);
+      },
+      onComplete: () => {
+        el.textContent = dial.value;
+      },
+    });
+    return () => controls.stop();
+  }, [on, reduce, dial.value]);
 
   return (
     <figure>
@@ -27,7 +54,7 @@ function Dial({ dial, on, reduce }: { dial: DialData; on: boolean; reduce: boole
         caption={
           <>
             <text x={TACH.C} y={TACH.C + 82} textAnchor="middle" fill="var(--color-fg)" className="font-sans text-[56px] font-semibold">
-              {dial.value}
+              <tspan ref={num}>{dial.value}</tspan>
               <tspan fill="var(--color-fg)" fillOpacity="0.5" className="font-mono text-[20px] font-normal">
                 {" "}
                 {dial.unit}

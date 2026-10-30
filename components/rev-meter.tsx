@@ -1,6 +1,6 @@
 "use client";
 
-import { Power, Square } from "lucide-react";
+import { Power, Square, Volume2, VolumeX } from "lucide-react";
 import { motion, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
 import { type Engine, MAX_RPM, useRpm } from "./rpm-context";
@@ -36,7 +36,7 @@ const COPY: Record<Engine, { tag: string; title: string; note: string; meter: st
  * cranks it and starts a test drive, and switches it off again when it's running.
  */
 export function RevMeter() {
-  const { rpm, engine, pressPower, prime } = useRpm();
+  const { rpm, engine, pressPower, prime, soundOn, toggleSound } = useRpm();
   const width = useTransform(rpm, (v) => `${(v / MAX_RPM) * 100}%`);
   const readout = useTransform(rpm, (v) => (v * 1000).toFixed(0).padStart(4, "0"));
   const copy = COPY[engine];
@@ -99,6 +99,21 @@ export function RevMeter() {
           )}
         </button>
       </div>
+
+      {/* engine sound: an easter egg, off by default */}
+      <button
+        type="button"
+        onClick={toggleSound}
+        aria-pressed={soundOn}
+        aria-label="Engine sound"
+        title={soundOn ? "Engine sound on" : "Engine sound off"}
+        className={cn(
+          "group grid size-9 shrink-0 place-items-center rounded-full border bg-surface transition-[border-color,color,transform] duration-200 motion-safe:active:scale-95",
+          soundOn ? "border-brand/70 text-brand" : "border-line text-muted-foreground hover:border-brand hover:text-brand",
+        )}
+      >
+        {soundOn ? <Volume2 aria-hidden className="size-4" /> : <VolumeX aria-hidden className="size-4" />}
+      </button>
 
       <div className="flex-1" aria-hidden>
         <div className="mb-1.5 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">

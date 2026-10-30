@@ -1,4 +1,4 @@
-import { Award, Users } from "lucide-react";
+import { ArrowUpRight, Award, Users } from "lucide-react";
 import { BrandIcon } from "@/components/brand-icons";
 import { ContactForm } from "@/components/contact-form";
 import { CopyEmail } from "@/components/copy-email";
@@ -107,7 +107,7 @@ export default function Home() {
             <GarageReveal skills={skills} />
 
             <div className="mt-16 grid gap-4 md:grid-cols-[1.6fr_1fr]">
-              <div className="rounded-2xl border border-line bg-surface p-6">
+              <div className="reveal rounded-2xl border border-line bg-surface p-6 transition-[transform,border-color] duration-300 hover:border-fg/25 motion-safe:hover:-translate-y-0.5">
                 <h3 className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   <Award aria-hidden className="size-4 text-brand" /> Certifications
                 </h3>
@@ -122,7 +122,7 @@ export default function Home() {
                   ))}
                 </ul>
               </div>
-              <div className="rounded-2xl border border-line bg-surface p-6">
+              <div className="reveal rounded-2xl border border-line bg-surface p-6 transition-[transform,border-color] duration-300 hover:border-fg/25 motion-safe:hover:-translate-y-0.5">
                 <h3 className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   <Users aria-hidden className="size-4 text-brand" /> Leadership
                 </h3>
@@ -160,10 +160,14 @@ export default function Home() {
                           href={s.href}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center gap-2 rounded-xl border border-line bg-surface px-3 py-2.5 text-sm transition-colors hover:border-fg/30"
+                          className="group flex items-center gap-2 rounded-xl border border-line bg-surface px-3 py-2.5 text-sm transition-[transform,border-color,box-shadow] duration-200 hover:border-brand/60 hover:shadow-[0_8px_24px_-12px_var(--color-brand)] motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98]"
                         >
-                          <BrandIcon name={s.icon} className="size-4 text-muted-foreground" />
-                          {s.label}
+                          <BrandIcon name={s.icon} className="size-4 text-muted-foreground transition-colors duration-200 group-hover:text-brand" />
+                          <span className="flex-1">{s.label}</span>
+                          <ArrowUpRight
+                            aria-hidden
+                            className="size-3.5 -translate-x-1 text-brand opacity-0 transition-[opacity,transform] duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+                          />
                         </a>
                       </li>
                     ))}

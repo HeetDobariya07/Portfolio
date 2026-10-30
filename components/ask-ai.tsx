@@ -46,13 +46,13 @@ export function AskAi({ compact = false }: { compact?: boolean }) {
               aria-label={`Ask ${a.name} about Heet Dobariya`}
               title={`Ask ${a.name} about Heet Dobariya`}
               className={cn(
-                "grid place-items-center rounded-xl border border-line bg-surface/80 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-fg/40",
+                "group grid place-items-center rounded-xl border border-line bg-surface/80 transition-[transform,border-color,box-shadow] duration-200 hover:border-brand/60 hover:shadow-[0_8px_20px_-10px_var(--color-brand)] motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-95",
                 compact ? "size-9 rounded-lg bg-bg" : "size-11",
               )}
             >
               {/* biome-ignore lint/performance/noImgElement: tiny static SVGs, no optimisation needed */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={a.logo} alt="" width={20} height={20} className={compact ? "size-4" : "size-5"} />
+              <img src={a.logo} alt="" width={20} height={20} className={cn("transition-transform duration-200 motion-safe:group-hover:scale-110", compact ? "size-4" : "size-5")} />
             </a>
           </li>
         ))}

@@ -13,8 +13,13 @@ export function SiteFooter() {
           2026 © All Rights Reserved <span aria-hidden className="mx-1.5 hidden text-line sm:inline">|</span>
           {/* on phones "Built with ♥ by Heet" gets its own line so it never splits mid-phrase */}
           <br className="sm:hidden" />
-          <span className="whitespace-nowrap">
-            Built with <Heart aria-label="love" className="inline size-3.5 -translate-y-px fill-brand text-brand" /> by Heet
+          <span className="group/credit whitespace-nowrap">
+            Built with{" "}
+            <Heart
+              aria-label="love"
+              className="inline size-3.5 -translate-y-px fill-brand text-brand transition-transform duration-200 motion-safe:group-hover/credit:scale-125 motion-safe:group-hover/credit:animate-[heartbeat_0.9s_ease-in-out]"
+            />{" "}
+            by Heet
           </span>
         </p>
         <AskAi compact />

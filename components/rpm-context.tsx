@@ -3,6 +3,7 @@
 import { animate, type MotionValue, useMotionValue, useReducedMotion } from "motion/react";
 import { createContext, type ReactNode, use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { sections } from "@/lib/content";
+import { EngineSound, soundPref, useSoundPref } from "@/lib/engine-sound";
 
 export const MAX_RPM = 8;
 export const IDLE = 0.9;
@@ -22,6 +23,9 @@ type Rpm = {
   prime: (on: boolean) => void;
   /** The power button: off → start + test drive; driving or idle → switch off. */
   pressPower: () => void;
+  /** Optional engine sound: off by default, remembered per browser. */
+  soundOn: boolean;
+  toggleSound: () => void;
 };
 
 const RpmContext = createContext<Rpm | null>(null);
@@ -48,6 +52,8 @@ export function RpmProvider({ children }: { children: ReactNode }) {
   const revving = useRef(false);
   const primed = useRef(false);
   const settle = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const soundOn = useSoundPref();
+  const sound = useRef<EngineSound | null>(null);
 
   const setEngine = useCallback((next: Engine) => {
     engineRef.current = next;
@@ -152,9 +158,35 @@ export function RpmProvider({ children }: { children: ReactNode }) {
   }, [reduce, rpm, setEngine, takeOver]);
 
   const pressPower = useCallback(() => {
+    // Create/resume the audio context inside the click, which iOS and Chrome's autoplay rules require.
+    if (soundPref.get()) (sound.current ??= new EngineSound()).prepare();
     if (engineRef.current === "off") void startDrive();
     else switchOff();
   }, [startDrive, switchOff]);
+
+  const toggleSound = useCallback(() => {
+    const next = !soundPref.get();
+    soundPref.set(next);
+    if (next) (sound.current ??= new EngineSound()).prepare();
+  }, []);
+
+  // The note follows the rpm while the engine runs and the sound is on; it fades out otherwise,
+  // and while the tab is hidden.
+  const running = engine !== "off";
+  useEffect(() => {
+    if (!soundOn || !running) return;
+    const s = (sound.current ??= new EngineSound());
+    s.setRpm(rpm.get());
+    s.start();
+    const off = rpm.on("change", (v) => s.setRpm(v));
+    const onVisibility = () => (document.hidden ? s.stop() : s.start());
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      off();
+      document.removeEventListener("visibilitychange", onVisibility);
+      s.stop();
+    };
+  }, [soundOn, running, rpm]);
 
   // Any manual input during a test drive hands the wheel back (engine keeps idling).
   useEffect(() => {
@@ -173,8 +205,8 @@ export function RpmProvider({ children }: { children: ReactNode }) {
   }, [engine, takeOver]);
 
   const value = useMemo(
-    () => ({ rpm, engine, touring: engine === "driving", prime, pressPower }),
-    [rpm, engine, prime, pressPower],
+    () => ({ rpm, engine, touring: engine === "driving", prime, pressPower, soundOn, toggleSound }),
+    [rpm, engine, prime, pressPower, soundOn, toggleSound],
   );
   return <RpmContext value={value}>{children}</RpmContext>;
 }

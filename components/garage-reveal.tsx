@@ -32,7 +32,10 @@ function Board({ group, index, progress, reduce }: { group: Group; index: number
       <h3 className="mb-3 font-mono text-xs font-normal uppercase tracking-[0.18em] text-muted-foreground">{group.group}</h3>
       <ul className="flex flex-wrap gap-2">
         {group.items.map((s) => (
-          <li key={s} className="rounded-lg border border-line bg-surface px-3 py-1.5 text-sm">
+          <li
+            key={s}
+            className="rounded-lg border border-line bg-surface px-3 py-1.5 text-sm transition-[transform,border-color,background-color] duration-200 hover:border-brand/60 hover:bg-brand/10 motion-safe:hover:-translate-y-0.5"
+          >
             {s}
           </li>
         ))}

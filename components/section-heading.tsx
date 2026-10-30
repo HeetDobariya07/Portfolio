@@ -8,7 +8,7 @@ type Props = {
 /** Section title with a gear-knob badge, e.g. [2] EXPERIENCE. */
 export function SectionHeading({ gear, label, title, intro }: Props) {
   return (
-    <header className="mb-10 md:mb-14">
+    <header className="reveal mb-10 md:mb-14">
       <p className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
         {/* tracking-normal: the parent's letter-spacing would push the digit off-centre */}
         <span className="grid size-7 place-items-center rounded-full border border-line bg-surface leading-none font-semibold tracking-normal text-brand">

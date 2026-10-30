@@ -1,7 +1,9 @@
 "use client";
 
 import { Download } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
+import { ScrollProgress } from "./scroll-progress";
 import { cn } from "@/lib/utils";
 import { profile, sections } from "@/lib/content";
 
@@ -10,16 +12,18 @@ import { profile, sections } from "@/lib/content";
  */
 export function SiteNav() {
   const [active, setActive] = useState<string | null>(null);
+  const reduce = useReducedMotion() ?? false;
 
   useEffect(() => {
-    const targets = sections
-      .map((s) => document.getElementById(s.id))
+    // #top is observed too, so scrolling back into the hero releases the highlight.
+    const targets = ["top", ...sections.map((s) => s.id)]
+      .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id);
+          if (entry.isIntersecting) setActive(entry.target.id === "top" ? null : entry.target.id);
         }
       },
       // A thin band across the middle of the viewport decides the active section.
@@ -35,8 +39,8 @@ export function SiteNav() {
         aria-label="Sections"
         className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-3 px-4 md:px-6"
       >
-        <a href="#top" className="flex items-center gap-2 font-mono text-sm font-semibold tracking-wider">
-          <span aria-hidden className="size-2 rounded-full bg-brand shadow-[0_0_10px_var(--color-brand)]" />
+        <a href="#top" className="group flex items-center gap-2 font-mono text-sm font-semibold tracking-wider transition-colors hover:text-brand">
+          <span aria-hidden className="size-2 rounded-full bg-brand shadow-[0_0_10px_var(--color-brand)] transition-transform duration-200 motion-safe:group-hover:scale-150" />
           HD
           <span className="sr-only">{profile.name}, back to top</span>
         </a>
@@ -50,12 +54,21 @@ export function SiteNav() {
                   href={`#${s.id}`}
                   aria-current={engaged ? "true" : undefined}
                   className={cn(
-                    "flex items-center gap-1.5 rounded-full px-2.5 py-1.5 font-mono text-xs transition-colors duration-200 sm:px-3",
-                    engaged ? "bg-brand text-bg" : "text-muted-foreground hover:text-fg",
+                    "relative flex items-center gap-1.5 rounded-full px-2.5 py-1.5 font-mono text-xs transition-colors duration-200 sm:px-3",
+                    engaged ? "text-bg" : "text-muted-foreground hover:bg-fg/5 hover:text-fg",
                   )}
                 >
-                  <span className="font-semibold">{s.gear}</span>
-                  <span className="hidden md:inline">{s.label}</span>
+                  {/* the papaya pill glides between gears like a shifter */}
+                  {engaged ? (
+                    <motion.span
+                      aria-hidden
+                      layoutId="gear-pill"
+                      className="absolute inset-0 rounded-full bg-brand"
+                      transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 38 }}
+                    />
+                  ) : null}
+                  <span className="relative font-semibold">{s.gear}</span>
+                  <span className="relative hidden md:inline">{s.label}</span>
                   <span className="sr-only md:hidden">{s.label}</span>
                 </a>
               </li>
@@ -76,6 +89,7 @@ export function SiteNav() {
           <span className="hidden sm:inline">Resume</span>
         </a>
       </nav>
+      <ScrollProgress />
     </header>
   );
 }
